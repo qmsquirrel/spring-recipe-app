@@ -12,7 +12,8 @@ public class Ingredient {
     private String description;
     private BigDecimal amount;
 
-    //private UnitOfMeasure
+    @OneToOne(fetch = FetchType.EAGER)
+    private UnitOfMeasurement unitOfMeasurement;
 
     @ManyToOne
     private Recipe recipe;
@@ -49,5 +50,11 @@ public class Ingredient {
         this.recipe = recipe;
     }
 
+    public UnitOfMeasurement getUnitOfMeasurement() {
+        return unitOfMeasurement;
+    }
 
+    public void setUnitOfMeasurement(UnitOfMeasurement unitOfMeasurement) {
+        this.unitOfMeasurement = unitOfMeasurement;
+    }
 }
