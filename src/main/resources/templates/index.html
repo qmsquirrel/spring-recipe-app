@@ -6,5 +6,21 @@
 </head>
 <body>
 <h1>My Recipes!</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Recipe</th>
+        <th>Dificulty</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="recipe : ${recipes}">
+        <td th:text="${recipe.description}">0</td>
+        <td th:text="${recipe.difficulty}">No</td>
+    </tr>
+    </tbody>
+</table>
+
 </body>
-</html>pp
+</html>
