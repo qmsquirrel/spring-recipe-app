@@ -29,7 +29,7 @@
                             <div class="col-md-3">
                                 <h5>Categories:</h5>
                             </div>
-                            <div class="col-md-9" th:if="${not #lists.isEmpty(recipe.categories)}">
+                            <div class="col-md-9">
                                 <ul>
                                     <li th:each="category : ${recipe.categories}" th:text="${category.description}">cat one</li>
                                     <li th:remove="all">cat two</li>
@@ -42,7 +42,7 @@
                                 <h5>Prep Time:</h5>
                             </div>
                             <div class="col-md-3">
-                                <p th:text="${recipe.prepTime + ' min'}">33 min</p>
+                                <p th:text="${recipe.prepTime} + ' Min'">33 min</p>
                             </div>
                             <div class="col-md-3">
                                 <h5>Difficulty:</h5>
@@ -56,7 +56,7 @@
                                 <h5>Cooktime:</h5>
                             </div>
                             <div class="col-md-3">
-                                <p th:text="${recipe.cookTime + ' min'}">33 min</p>
+                                <p th:text="${recipe.cookTime} + ' Min'">33 min</p>
                             </div>
                             <div class="col-md-3">
                                 <h5>Servings:</h5>
@@ -90,7 +90,9 @@
                             <div class="col-md-12">
                                 <ul>
                                     <li th:each="ingredient : ${recipe.ingredients}"
-                                    th:text="${ingredient.amount + ' ' + ingredient.unitOfMeasurement.description + ' of ' + ingredient.description}" >1 Cup of milk</li>
+                                    th:text="${ingredient.amount + ' '
+                                    + ingredient.unitOfMeasurement.description + ' of '
+                                    + ingredient.description}" >1 Cup of milk</li>
                                     <li th:remove="all">1 Teaspoon of chocolate</li>
                                     <li th:remove="all">1 Teaspoon of Sugar</li>
                                 </ul>
