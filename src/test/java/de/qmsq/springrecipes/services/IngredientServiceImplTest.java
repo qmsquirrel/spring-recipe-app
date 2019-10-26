@@ -1,11 +1,14 @@
 package de.qmsq.springrecipes.services;
 
 import de.qmsq.springrecipes.commands.IngredientCommand;
+import de.qmsq.springrecipes.converters.IngredientCommandToIngredient;
 import de.qmsq.springrecipes.converters.IngredientToIngredientCommand;
+import de.qmsq.springrecipes.converters.UnitOfMeasurementCommandToUnitOfMeasurement;
 import de.qmsq.springrecipes.converters.UnitOfMeasurementToUnitOfMeasurementCommand;
 import de.qmsq.springrecipes.domain.Ingredient;
 import de.qmsq.springrecipes.domain.Recipe;
 import de.qmsq.springrecipes.repositories.RecipeRepository;
+import de.qmsq.springrecipes.repositories.UnitOfMeasureRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -20,14 +23,19 @@ import static org.mockito.Mockito.*;
 public class IngredientServiceImplTest {
 
     private final IngredientToIngredientCommand ingredientToIngredientCommand;
+    private final IngredientCommandToIngredient ingredientCommandToIngredient;
 
     @Mock
     RecipeRepository recipeRepository;
+
+    @Mock
+    UnitOfMeasureRepository unitOfMeasureRepository;
 
     IngredientService ingredientService;
 
     //init converters
     public IngredientServiceImplTest() {
+        this.ingredientCommandToIngredient = new IngredientCommandToIngredient(new UnitOfMeasurementCommandToUnitOfMeasurement());
         this.ingredientToIngredientCommand = new IngredientToIngredientCommand(new UnitOfMeasurementToUnitOfMeasurementCommand());
     }
 
@@ -35,12 +43,9 @@ public class IngredientServiceImplTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        ingredientService = new IngredientServiceImpl(ingredientToIngredientCommand, recipeRepository);
+        ingredientService = new IngredientServiceImpl(ingredientToIngredientCommand, ingredientCommandToIngredient, recipeRepository, unitOfMeasureRepository);
     }
 
-    @Test
-    public void findByRecipeIdAndId() throws Exception {
-    }
 
     @Test
     public void findByRecipeIdAndIngredientIdHappyPath() throws Exception {
