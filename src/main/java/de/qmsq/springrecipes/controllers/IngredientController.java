@@ -1,6 +1,8 @@
 package de.qmsq.springrecipes.controllers;
 
 import de.qmsq.springrecipes.commands.IngredientCommand;
+import de.qmsq.springrecipes.commands.RecipeCommand;
+import de.qmsq.springrecipes.commands.UnitOfMeasurementCommand;
 import de.qmsq.springrecipes.services.IngredientService;
 import de.qmsq.springrecipes.services.RecipeService;
 import de.qmsq.springrecipes.services.UnitOfMeasurementService;
@@ -61,5 +63,40 @@ public class IngredientController {
         log.debug("saved ingredient id:" + savedCommand.getId());
 
         return "redirect:/recipe/" + savedCommand.getRecipeId() + "/ingredient/" + savedCommand.getId() + "/show";
+    }
+
+    @GetMapping
+    @RequestMapping("recipe/{recipeId}/ingredient/new")
+    public String newIngredient(@PathVariable String recipeId, Model model) {
+
+        // Make sure we have a good id value
+        RecipeCommand recipeCommand = recipeService.findCommandById(Long.valueOf(recipeId));
+        // TODO raise exception if null
+
+
+        // need to return back parent id for hidden form property
+        IngredientCommand ingredientCommand = new IngredientCommand();
+        ingredientCommand.setRecipeId(Long.valueOf(recipeId));
+        model.addAttribute("ingredient", ingredientCommand);
+        // init uom
+        ingredientCommand.setUnitOfMeasurement(new UnitOfMeasurementCommand());
+
+        model.addAttribute("uomList", unitOfMeasurementService.listAllUoms());
+
+        return "recipe/ingredient/ingredientform";
+
+    }
+
+    @GetMapping
+    @RequestMapping("recipe/{recipeId}/ingredient/{id}/delete")
+    public String deleteIngredient(@PathVariable String recipeId,
+                                   @PathVariable String id) {
+
+        log.debug("delete ingredient id: "+ id);
+
+        ingredientService.deleteById(Long.valueOf(recipeId), Long.valueOf(id));
+
+        return "redirect:/recipe/" +recipeId + "/ingredients";
+
     }
 }
