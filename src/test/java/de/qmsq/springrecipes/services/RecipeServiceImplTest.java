@@ -3,6 +3,7 @@ package de.qmsq.springrecipes.services;
 import de.qmsq.springrecipes.converters.RecipeCommandToRecipe;
 import de.qmsq.springrecipes.converters.RecipeToRecipeCommand;
 import de.qmsq.springrecipes.domain.Recipe;
+import de.qmsq.springrecipes.exceptions.NotFoundException;
 import de.qmsq.springrecipes.repositories.RecipeRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -76,5 +77,15 @@ public class RecipeServiceImplTest {
 
         verify(recipeRepository, times(1)).deleteById(anyLong());
 
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void getRecipeByIdTestNotFound() throws Exception {
+
+        Optional<Recipe> recipeOptional = Optional.empty();
+
+        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+
+        Recipe recipeReturned = recipeService.findById(1L);
     }
 }
